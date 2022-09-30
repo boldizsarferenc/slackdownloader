@@ -3,11 +3,8 @@
 namespace App\RemoteUserBundle\Presentation\Api\Rest;
 
 use App\RemoteUserBundle\Application\Exception\UserNotFoundException;
-use App\RemoteUserBundle\Application\GetUserByCredentials\GetUserByCredentialsHandler;
 use App\RemoteUserBundle\Application\GetUserByCredentials\GetUserByCredentialsQuery;
-use App\RemoteUserBundle\Application\GetUserByEmail\GetUserByEmailHandler;
 use App\RemoteUserBundle\Application\GetUserByEmail\GetUserByEmailQuery;
-use App\RemoteUserBundle\Application\GetUserById\GetUserByIdHandler;
 use App\RemoteUserBundle\Application\GetUserById\GetUserByIdQuery;
 use App\RemoteUserBundle\Domain\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,10 +53,12 @@ class UserApiController extends AbstractController
 
         try {
             /** @var User $user */
-            $user = $this->handle(new GetUserByCredentialsQuery(
-                $email,
-                $password
-            ));
+            $user = $this->handle(
+                new GetUserByCredentialsQuery(
+                    $email,
+                    $password
+                )
+            );
         } catch (UserNotFoundException $e) {
             return new JsonResponse([
                 'message' => $e->getMessage()

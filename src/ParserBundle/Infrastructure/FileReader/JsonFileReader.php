@@ -15,7 +15,7 @@ class JsonFileReader implements FileReaderInterface
         $this->filesystem = $filesystem;
     }
 
-    public function getUrls(UploadedExportFile $file) : MemeImageCollection
+    public function getUrls(UploadedExportFile $file): MemeImageCollection
     {
         $json = $this->filesystem->getContents($file);
         $posts = json_decode($json, true);

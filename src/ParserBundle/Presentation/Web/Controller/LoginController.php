@@ -10,9 +10,9 @@ class LoginController extends AbstractController
 {
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-         if ($this->getUser()) {
-             return $this->redirectToRoute('file_upload');
-         }
+        if ($this->getUser()) {
+            return $this->redirectToRoute('file_upload');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

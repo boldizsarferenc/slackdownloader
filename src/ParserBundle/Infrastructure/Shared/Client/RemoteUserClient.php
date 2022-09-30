@@ -5,7 +5,6 @@ namespace App\ParserBundle\Infrastructure\Shared\Client;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-
 use function json_decode;
 
 class RemoteUserClient

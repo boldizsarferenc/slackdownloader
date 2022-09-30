@@ -3,10 +3,8 @@
 namespace App\ParserBundle\Infrastructure\FileUploader;
 
 use App\ParserBundle\Domain\Exception\DomainException;
-
 use function end;
 use function explode;
-
 use const DIRECTORY_SEPARATOR;
 
 class TempFile

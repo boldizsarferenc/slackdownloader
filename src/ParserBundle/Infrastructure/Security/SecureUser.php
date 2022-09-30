@@ -10,7 +10,7 @@ class SecureUser implements UserInterface, PasswordAuthenticatedUserInterface
     private int $id;
     private ?string $email;
     private string $lastName;
-    private string  $firstName;
+    private string $firstName;
     private string $password;
     private $roles = [];
 
@@ -63,7 +63,7 @@ class SecureUser implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return  $this->email;
+        return $this->email;
     }
 
     /**
@@ -71,7 +71,7 @@ class SecureUser implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**

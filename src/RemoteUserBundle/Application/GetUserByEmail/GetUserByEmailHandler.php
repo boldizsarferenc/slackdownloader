@@ -18,7 +18,7 @@ class GetUserByEmailHandler
     {
         $user = $this->userRepository->getUserByEmail($query->getEmail());
 
-        if (!$user){
+        if (!$user) {
             throw new UserNotFoundException($query->getEmail());
         }
 

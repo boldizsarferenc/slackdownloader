@@ -7,7 +7,6 @@ use App\Shared\Infrastructure\Event\ContextTransferEvent;
 use Exception;
 use Symfony\Component\Messenger\HandleTrait;
 use Symfony\Component\Messenger\MessageBusInterface;
-
 use function array_key_exists;
 
 class ContextTransferEventHandler
@@ -27,11 +26,13 @@ class ContextTransferEventHandler
             throw new Exception('ContextTransferEventHandler | Required data is missing: userId');
         }
 
-        $this->handle(new LogUserEventCommand(
-            $data['userId'],
-            $event->getEventName(),
-            $event->getHappenedAt()
-        ));
+        $this->handle(
+            new LogUserEventCommand(
+                $data['userId'],
+                $event->getEventName(),
+                $event->getHappenedAt()
+            )
+        );
     }
 
 }

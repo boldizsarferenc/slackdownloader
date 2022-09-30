@@ -25,14 +25,16 @@ class GetUserByCredentialsHandler
     {
         $user = $this->userRepository->getUserByCredentials($query->getUserName(), $query->getPassword());
 
-        if (!$user){
+        if (!$user) {
             throw new UserNotFoundException($query->getUserName());
         }
 
-        $this->dispatcher->dispatchUserActivityEvent(new UserLoggedInEvent(
-            $user->getId(),
-            new DateTimeImmutable()
-        ));
+        $this->dispatcher->dispatchUserActivityEvent(
+            new UserLoggedInEvent(
+                $user->getId(),
+                new DateTimeImmutable()
+            )
+        );
 
         return $user;
     }

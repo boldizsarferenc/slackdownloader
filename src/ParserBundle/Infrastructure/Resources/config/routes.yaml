@@ -1,15 +1,15 @@
 file_upload:
-    path: /file/upload
-    controller: App\ParserBundle\Presentation\Web\Controller\FileUploadController::index
+  path: /file/upload
+  controller: App\ParserBundle\Presentation\Web\Controller\FileUploadController::index
 
 file_upload_post:
-    path: /file/upload/post
-    controller: App\ParserBundle\Presentation\Web\Controller\FileUploadController::upload
+  path: /file/upload/post
+  controller: App\ParserBundle\Presentation\Web\Controller\FileUploadController::upload
 
 app_login:
-    path: /login
-    controller:  App\ParserBundle\Presentation\Web\Controller\LoginController::login
+  path: /login
+  controller: App\ParserBundle\Presentation\Web\Controller\LoginController::login
 
 app_logout:
-    path: /logout
-    methods: GET
+  path: /logout
+  methods: GET

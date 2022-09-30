@@ -6,7 +6,7 @@
 
     <entity name="App\AuditLogBundle\Domain\AuditLog"
             repository-class="App\AuditLogBundle\Infrastructure\Persistence\Doctrine\Repository\AuditLogRepository"
-            table="auditlog" >
+            table="auditlog">
 
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO"/>

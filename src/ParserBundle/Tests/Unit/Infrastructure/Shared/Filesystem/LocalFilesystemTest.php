@@ -8,19 +8,19 @@ use PHPUnit\Framework\TestCase;
 
 class LocalFilesystemTest extends TestCase
 {
-  public function testGlobRecursive()
-  {
+    public function testGlobRecursive()
+    {
 
-    $expected = array(
-        new File(__DIR__ . '/fixture/test.json'),
-        new File(__DIR__ . '/fixture/random/asd.json'),
-        new File(__DIR__ . '/fixture/random/sub/example/recursive.json'),
-    );
+        $expected = array(
+            new File(__DIR__ . '/fixture/test.json'),
+            new File(__DIR__ . '/fixture/random/asd.json'),
+            new File(__DIR__ . '/fixture/random/sub/example/recursive.json'),
+        );
 
-    $fileSystem = new LocalFilesystem(__DIR__ . "/fixture");
-    $result = $fileSystem->globRecursive(__DIR__ . "/fixture",'*.json');
+        $fileSystem = new LocalFilesystem(__DIR__ . "/fixture");
+        $result = $fileSystem->globRecursive(__DIR__ . "/fixture", '*.json');
 
-    $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result);
 
-  }
+    }
 }

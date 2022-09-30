@@ -4,7 +4,6 @@ namespace App\ParserBundle\Infrastructure\Shared\Filesystem;
 
 use App\ParserBundle\Domain\Exception\DomainException;
 use ZipArchive;
-
 use function copy;
 
 class LocalFilesystem implements FilesystemInterface
@@ -21,7 +20,7 @@ class LocalFilesystem implements FilesystemInterface
         return file_get_contents($file->getPath());
     }
 
-    public function uploadFile(File $file,$uploadName): File
+    public function uploadFile(File $file, $uploadName): File
     {
         $upload = $this->uploadDir . $uploadName;
 
@@ -47,7 +46,7 @@ class LocalFilesystem implements FilesystemInterface
 
     public function globRecursive(string $base, string $pattern, $flags = 0): array
     {
-        $files = $this->doGlobRecursive($base, $pattern, $flags );
+        $files = $this->doGlobRecursive($base, $pattern, $flags);
         $result = [];
 
         foreach ($files as $file) {
@@ -65,13 +64,13 @@ class LocalFilesystem implements FilesystemInterface
             $base .= DIRECTORY_SEPARATOR;
         }
 
-        $files = glob($base.$pattern, $flags);
+        $files = glob($base . $pattern, $flags);
 
         if (!is_array($files)) {
             $files = [];
         }
 
-        $dirs = glob($base.'*', GLOB_ONLYDIR|GLOB_NOSORT|GLOB_MARK);
+        $dirs = glob($base . '*', GLOB_ONLYDIR | GLOB_NOSORT | GLOB_MARK);
 
         if (!is_array($dirs)) {
             return $files;

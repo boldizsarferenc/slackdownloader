@@ -7,9 +7,9 @@ use App\ParserBundle\Domain\Event\DomainEventDispatcherInterface;
 use App\ParserBundle\Domain\Event\UserParsedImagesEvent;
 use App\ParserBundle\Domain\Exception\DomainException;
 use App\ParserBundle\Domain\MemeImageCollection;
+use App\ParserBundle\Domain\MemeImageParserInterface;
 use App\ParserBundle\Domain\ShoprenterWorkerRepositoryInterface;
 use App\ParserBundle\Domain\ValueObject\InputFile;
-use App\ParserBundle\Domain\MemeImageParserInterface;
 use DateTimeImmutable;
 
 class GetImagesFromFileHandler
@@ -36,18 +36,22 @@ class GetImagesFromFileHandler
         $worker = $this->workerRepository->getById($query->getWorkerId());
 
         try {
-            $collection = $this->parser->getMemeImagesFromFile(new InputFile(
-                $query->getFilePath(),
-                $query->getFileName()
-            ));
+            $collection = $this->parser->getMemeImagesFromFile(
+                new InputFile(
+                    $query->getFilePath(),
+                    $query->getFileName()
+                )
+            );
         } catch (DomainException $e) {
             throw new ApplicationException($e->getMessage(), $e->getCode());
         }
 
-        $this->dispatcher->dispatchUserActivityEvent(new UserParsedImagesEvent(
-            $worker->getId(),
-            new DateTimeImmutable(),
-        ));
+        $this->dispatcher->dispatchUserActivityEvent(
+            new UserParsedImagesEvent(
+                $worker->getId(),
+                new DateTimeImmutable(),
+            )
+        );
 
         return $collection;
     }

@@ -18,7 +18,7 @@ class UploadedExportFile
         $this->name = $this->getFileNameFromPath($path);
         $this->extension = $this->getExtensionFromFilename($this->name);
 
-        if (!in_array($this->extension, ['zip','json'])) {
+        if (!in_array($this->extension, ['zip', 'json'])) {
             throw new  DomainException('wrong file format');
         }
     }

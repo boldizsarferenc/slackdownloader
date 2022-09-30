@@ -8,10 +8,10 @@ use PHPUnit\Framework\TestCase;
 
 class MemeImageCollectionTest extends TestCase
 {
-    public function testIterate()
+    public function testIterate(): void
     {
-        $image = new MemeImage('asd.gif');
-        $image2 = new MemeImage('wasd.jpeg');
+        $image = new MemeImage('image1.gif');
+        $image2 = new MemeImage('image2.jpeg');
 
         $expected = array(
             $image,

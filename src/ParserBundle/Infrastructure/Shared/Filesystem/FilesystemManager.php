@@ -2,6 +2,7 @@
 
 namespace App\ParserBundle\Infrastructure\Shared\Filesystem;
 
+use App\ParserBundle\Domain\Exception\DomainException;
 use App\ParserBundle\Infrastructure\FileUploader\UploadedExportFile;
 
 class FilesystemManager
@@ -21,6 +22,7 @@ class FilesystemManager
 
     /**
      * @return UploadedExportFile[]
+     * @throws DomainException
      */
     public function listFiles(string $dir, string $pattern): array
     {

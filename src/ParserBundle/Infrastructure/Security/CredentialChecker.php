@@ -16,7 +16,7 @@ class CredentialChecker
         $this->queryBus = $queryBus;
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
+    public function checkCredentials($credentials, UserInterface $user): bool
     {
         try {
             $this->queryBus->dispatch(
@@ -25,7 +25,7 @@ class CredentialChecker
                     $credentials['password']
                 )
             );
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             return false;
         }
 

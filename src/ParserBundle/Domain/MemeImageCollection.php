@@ -37,7 +37,9 @@ final class MemeImageCollection implements ArrayAccess, IteratorAggregate, Count
             } else {
                 $this->images[$offset] = $value;
             }
-        } else throw new TypeError("Not a MemeImage!");
+        }
+
+        throw new TypeError("Not a MemeImage!");
     }
 
     public function offsetUnset($offset): void

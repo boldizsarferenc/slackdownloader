@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class ParserExtension extends Extension
 {
-
     /**
      * @throws Exception
      */

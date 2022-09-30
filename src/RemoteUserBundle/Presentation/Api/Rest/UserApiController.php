@@ -22,7 +22,7 @@ class UserApiController extends AbstractController
         $this->messageBus = $queryBus;
     }
 
-    public function getByEmailAction(Request $request)
+    public function getByEmailAction(Request $request): JsonResponse
     {
 
         $email = $request->get('email');
@@ -45,7 +45,7 @@ class UserApiController extends AbstractController
         ], 200);
     }
 
-    public function authAction(Request $request)
+    public function authAction(Request $request): JsonResponse
     {
 
         $email = $request->get('email');
@@ -73,7 +73,7 @@ class UserApiController extends AbstractController
         ], 200);
     }
 
-    public function getByIdAction(int $userId)
+    public function getByIdAction(int $userId): JsonResponse
     {
 
         try {
@@ -93,5 +93,4 @@ class UserApiController extends AbstractController
             'password' => $user->getPassword()
         ], 200);
     }
-
 }

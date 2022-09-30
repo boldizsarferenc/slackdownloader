@@ -3,6 +3,7 @@
 namespace App\RemoteUserBundle\Application\GetUserById;
 
 use App\RemoteUserBundle\Application\Exception\UserNotFoundException;
+use App\RemoteUserBundle\Domain\User;
 use App\RemoteUserBundle\Domain\UserRepositoryInterface;
 
 class GetUserByIdHandler
@@ -14,16 +15,16 @@ class GetUserByIdHandler
         $this->repository = $repository;
     }
 
-    public function __invoke(GetUserByIdQuery $query)
+    /**
+     * @throws UserNotFoundException
+     */
+    public function __invoke(GetUserByIdQuery $query): User
     {
         $userId = $query->getId();
-
         $user = $this->repository->getUserById($userId);
-
         if (!$user) {
             throw new UserNotFoundException($userId);
         }
-
         return $user;
     }
 }

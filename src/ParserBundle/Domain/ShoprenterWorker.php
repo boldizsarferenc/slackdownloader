@@ -15,14 +15,13 @@ class ShoprenterWorker
         $this->lastName = $lastName;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->firstName . ' ' . $this->lastName;
     }
-
 }

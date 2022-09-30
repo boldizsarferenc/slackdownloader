@@ -3,6 +3,7 @@
 namespace App\RemoteUserBundle\Application\GetUserByEmail;
 
 use App\RemoteUserBundle\Application\Exception\UserNotFoundException;
+use App\RemoteUserBundle\Domain\User;
 use App\RemoteUserBundle\Domain\UserRepositoryInterface;
 
 class GetUserByEmailHandler
@@ -14,7 +15,10 @@ class GetUserByEmailHandler
         $this->userRepository = $userRepository;
     }
 
-    public function __invoke(GetUserByEmailQuery $query)
+    /**
+     * @throws UserNotFoundException
+     */
+    public function __invoke(GetUserByEmailQuery $query): User
     {
         $user = $this->userRepository->getUserByEmail($query->getEmail());
 

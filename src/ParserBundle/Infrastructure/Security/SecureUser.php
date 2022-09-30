@@ -12,7 +12,7 @@ class SecureUser implements UserInterface, PasswordAuthenticatedUserInterface
     private string $lastName;
     private string $firstName;
     private string $password;
-    private $roles = [];
+    private array $roles = [];
 
     public function getEmail(): ?string
     {

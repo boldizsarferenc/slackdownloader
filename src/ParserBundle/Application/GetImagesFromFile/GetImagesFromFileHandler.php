@@ -33,9 +33,8 @@ class GetImagesFromFileHandler
      */
     public function __invoke(GetImagesFromFileQuery $query): MemeImageCollection
     {
-        $worker = $this->workerRepository->getById($query->getWorkerId());
-
         try {
+            $worker = $this->workerRepository->getById($query->getWorkerId());
             $collection = $this->parser->getMemeImagesFromFile(
                 new InputFile(
                     $query->getFilePath(),

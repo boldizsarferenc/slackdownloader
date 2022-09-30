@@ -12,22 +12,28 @@ class TempFile
     private string $path;
     private string $name;
 
+    /**
+     * @throws DomainException
+     */
     public function __construct($path)
     {
         $this->path = $path;
         $this->name = $this->getFileNameFromPath($path);
     }
 
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @throws DomainException
+     */
     private function getFileNameFromPath($path): string
     {
         $explodedPath = explode(DIRECTORY_SEPARATOR, $path);

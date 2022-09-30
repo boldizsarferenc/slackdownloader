@@ -20,6 +20,9 @@ class LocalFilesystem implements FilesystemInterface
         return file_get_contents($file->getPath());
     }
 
+    /**
+     * @throws DomainException
+     */
     public function uploadFile(File $file, $uploadName): File
     {
         $upload = $this->uploadDir . $uploadName;

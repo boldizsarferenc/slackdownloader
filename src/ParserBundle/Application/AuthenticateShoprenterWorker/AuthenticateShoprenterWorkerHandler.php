@@ -16,6 +16,9 @@ class AuthenticateShoprenterWorkerHandler
         $this->workerRepository = $workerRepository;
     }
 
+    /**
+     * @throws ApplicationException
+     */
     public function __invoke(AuthenticateShoprenterWorkerQuery $query): ShoprenterWorker
     {
         try {

@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class RemoteUserExtension extends Extension
 {
-
     /**
      * @throws Exception
      */

@@ -7,7 +7,7 @@ use App\ParserBundle\Infrastructure\Shared\Filesystem\FilesystemInterface;
 
 class LocalFileUploader implements FileUploaderInterface
 {
-    private $filesystem;
+    private FilesystemInterface $filesystem;
 
     public function __construct(FilesystemInterface $filesystem)
     {

@@ -4,7 +4,7 @@ namespace App\AuditLogBundle\Infrastructure\Event;
 
 use App\AuditLogBundle\Application\LogUserEvent\LogUserEventCommand;
 use App\Shared\Infrastructure\Event\ContextTransferEvent;
-use Exception;
+use RuntimeException;
 use Symfony\Component\Messenger\HandleTrait;
 use Symfony\Component\Messenger\MessageBusInterface;
 use function array_key_exists;
@@ -23,7 +23,7 @@ class ContextTransferEventHandler
         $data = $event->getData();
 
         if (!array_key_exists('userId', $data)) {
-            throw new Exception('ContextTransferEventHandler | Required data is missing: userId');
+            throw new RuntimeException('ContextTransferEventHandler | Required data is missing: userId');
         }
 
         $this->handle(

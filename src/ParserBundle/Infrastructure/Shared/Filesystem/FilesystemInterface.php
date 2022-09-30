@@ -4,7 +4,7 @@ namespace App\ParserBundle\Infrastructure\Shared\Filesystem;
 
 interface FilesystemInterface
 {
-    public function getContents(File $path): string;
+    public function getContents(File $file): string;
 
     public function uploadFile(File $file, $uploadName): File;
 

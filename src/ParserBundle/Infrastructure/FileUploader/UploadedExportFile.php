@@ -12,6 +12,9 @@ class UploadedExportFile
     private string $extension;
     private string $name;
 
+    /**
+     * @throws DomainException
+     */
     public function __construct($path)
     {
         $this->path = $path;
@@ -38,6 +41,9 @@ class UploadedExportFile
         return $this->name;
     }
 
+    /**
+     * @throws DomainException
+     */
     private function getFileNameFromPath($path): string
     {
         $explodedPath = explode(DIRECTORY_SEPARATOR, $path);

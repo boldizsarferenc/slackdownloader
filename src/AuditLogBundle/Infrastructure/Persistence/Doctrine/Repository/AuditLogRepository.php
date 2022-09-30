@@ -9,7 +9,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class AuditLogRepository extends ServiceEntityRepository implements AuditLogRepositoryInterface
 {
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, AuditLog::class);

@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\HandleTrait;
 use Symfony\Component\Messenger\MessageBusInterface;
-
 use function time;
 
 class SlackdownloaderImageParseCommand extends Command
@@ -23,7 +22,8 @@ class SlackdownloaderImageParseCommand extends Command
     protected static $defaultName = 'slackdownloader:image:parse';
     protected static $defaultDescription = 'It parsing urls form slack file';
 
-    public function __construct(MessageBusInterface $queryBus) {
+    public function __construct(MessageBusInterface $queryBus)
+    {
         parent::__construct();
         $this->messageBus = $queryBus;
     }
@@ -33,8 +33,7 @@ class SlackdownloaderImageParseCommand extends Command
         $this
             ->addArgument('username', InputArgument::REQUIRED, 'Username')
             ->addArgument('password', InputArgument::REQUIRED, 'Password')
-            ->addArgument('filePath', InputArgument::REQUIRED, 'File path what is relative to command')
-        ;
+            ->addArgument('filePath', InputArgument::REQUIRED, 'File path what is relative to command');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -44,20 +43,24 @@ class SlackdownloaderImageParseCommand extends Command
         $filePath = $input->getArgument('filePath');
 
         try {
-            $worker = $this->handle(new AuthenticateShoprenterWorkerQuery(
-                $input->getArgument('username'),
-                $input->getArgument('password')
-            ));
+            $worker = $this->handle(
+                new AuthenticateShoprenterWorkerQuery(
+                    $input->getArgument('username'),
+                    $input->getArgument('password')
+                )
+            );
         } catch (ApplicationException $e) {
             $io->error('Access Denied! ' . $e->getMessage());
             return Command::FAILURE;
         }
 
-        $urls = $this->handle(new GetImagesFromFileQuery(
-            $filePath,
-            'uploadedFile_' . time() . '.json',
-            $worker->getId()
-        ));
+        $urls = $this->handle(
+            new GetImagesFromFileQuery(
+                $filePath,
+                'uploadedFile_' . time() . '.json',
+                $worker->getId()
+            )
+        );
 
         /** @var MemeImage $url */
         foreach ($urls as $url) {

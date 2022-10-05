@@ -7,8 +7,8 @@ use App\ParserBundle\Domain\MemeImageCollection;
 use App\ParserBundle\Domain\MemeImageParserInterface;
 use App\ParserBundle\Domain\ValueObject\InputFile;
 use App\ParserBundle\Infrastructure\FileReader\FileReaderInterface;
-use App\ParserBundle\Infrastructure\FileUploader\TempFile;
 use App\ParserBundle\Infrastructure\FileUploader\FileUploaderInterface;
+use App\ParserBundle\Infrastructure\FileUploader\TempFile;
 use Exception;
 
 class SlackMemeImageParserAdapter implements MemeImageParserInterface
@@ -32,7 +32,7 @@ class SlackMemeImageParserAdapter implements MemeImageParserInterface
             $uploadedExportFile = $this->fileUploader->uploadFile($tempFile, $file->getFileName());
             return $this->reader->getUrls($uploadedExportFile);
         } catch (Exception $exception) {
-            throw new DomainException($exception->getMessage(),$exception->getCode());
+            throw new DomainException($exception->getMessage(), $exception->getCode());
         }
     }
 }

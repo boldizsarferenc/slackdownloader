@@ -6,15 +6,15 @@
 
     <entity name="App\RemoteUserBundle\Domain\User"
             repository-class="App\RemoteUserBundle\Infrastructure\Persistence\Doctrine\Repository\UserRepository"
-            table="user" >
+            table="user">
 
-            <id name="id" type="integer" column="id">
-                <generator strategy="AUTO"/>
-            </id>
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
 
-            <field name="firstName" type="string" column="first_name"/>
-            <field name="lastName" type="string" column="last_name"/>
-            <field name="email" type="string" length="180" unique="true"/>
-            <field name="password" type="string"/>
+        <field name="firstName" type="string" column="first_name"/>
+        <field name="lastName" type="string" column="last_name"/>
+        <field name="email" type="string" length="180" unique="true"/>
+        <field name="password" type="string"/>
     </entity>
 </doctrine-mapping>

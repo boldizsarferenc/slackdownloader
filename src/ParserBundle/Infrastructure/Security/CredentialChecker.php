@@ -16,14 +16,16 @@ class CredentialChecker
         $this->queryBus = $queryBus;
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
+    public function checkCredentials($credentials, UserInterface $user): bool
     {
         try {
-            $this->queryBus->dispatch(new AuthenticateShoprenterWorkerQuery(
-                $credentials['username'],
-                $credentials['password']
-            ));
-        } catch (Exception $e) {
+            $this->queryBus->dispatch(
+                new AuthenticateShoprenterWorkerQuery(
+                    $credentials['username'],
+                    $credentials['password']
+                )
+            );
+        } catch (Exception $exception) {
             return false;
         }
 

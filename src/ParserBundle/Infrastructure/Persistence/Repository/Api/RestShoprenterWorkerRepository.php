@@ -36,7 +36,7 @@ class RestShoprenterWorkerRepository implements ShoprenterWorkerRepositoryInterf
     {
         try {
             $response = $this->client->getWorkerById($id);
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             throw new DomainException('Shoprenter worker is not found with id: ' . $id);
         }
 

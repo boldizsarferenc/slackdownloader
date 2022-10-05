@@ -12,13 +12,16 @@ class UploadedExportFile
     private string $extension;
     private string $name;
 
+    /**
+     * @throws DomainException
+     */
     public function __construct($path)
     {
         $this->path = $path;
         $this->name = $this->getFileNameFromPath($path);
         $this->extension = $this->getExtensionFromFilename($this->name);
 
-        if (!in_array($this->extension, ['zip','json'])) {
+        if (!in_array($this->extension, ['zip', 'json'])) {
             throw new  DomainException('wrong file format');
         }
     }
@@ -38,6 +41,9 @@ class UploadedExportFile
         return $this->name;
     }
 
+    /**
+     * @throws DomainException
+     */
     private function getFileNameFromPath($path): string
     {
         $explodedPath = explode(DIRECTORY_SEPARATOR, $path);

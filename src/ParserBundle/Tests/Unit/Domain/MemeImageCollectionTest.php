@@ -8,27 +8,27 @@ use PHPUnit\Framework\TestCase;
 
 class MemeImageCollectionTest extends TestCase
 {
-  public function testIterate()
-  {
-    $image = new MemeImage('asd.gif');
-    $image2 = new MemeImage('wasd.jpeg');
+    public function testIterate(): void
+    {
+        $image = new MemeImage('image1.gif');
+        $image2 = new MemeImage('image2.jpeg');
 
-    $expected = array(
-        $image,
-        $image2
-    );
+        $expected = array(
+            $image,
+            $image2
+        );
 
-    $collection = new MemeImageCollection(
-        $image,
-        $image2
-    );
+        $collection = new MemeImageCollection(
+            $image,
+            $image2
+        );
 
-    $result = array();
+        $result = array();
 
-    foreach ($collection as $image){
-      $result[]= $image;
+        foreach ($collection as $image) {
+            $result[] = $image;
+        }
+
+        $this->assertSame($expected, $result);
     }
-
-    $this->assertSame($expected,$result);
-  }
 }

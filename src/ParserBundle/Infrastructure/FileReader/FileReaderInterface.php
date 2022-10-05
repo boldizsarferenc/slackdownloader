@@ -7,5 +7,5 @@ use App\ParserBundle\Infrastructure\FileUploader\UploadedExportFile;
 
 interface FileReaderInterface
 {
-    public function getUrls(UploadedExportFile $file) : MemeImageCollection;
+    public function getUrls(UploadedExportFile $uploadedExportFile): MemeImageCollection;
 }

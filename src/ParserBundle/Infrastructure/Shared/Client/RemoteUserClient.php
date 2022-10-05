@@ -5,7 +5,8 @@ namespace App\ParserBundle\Infrastructure\Shared\Client;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-
+use JsonException;
+use RuntimeException;
 use function json_decode;
 
 class RemoteUserClient
@@ -17,7 +18,9 @@ class RemoteUserClient
         $this->client = new Client();
     }
 
-
+    /**
+     * @throws JsonException
+     */
     public function getWorkerByEmail(string $email)
     {
         try {
@@ -30,12 +33,15 @@ class RemoteUserClient
                 ]
             ]);
         } catch (GuzzleException $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new RuntimeException($e->getMessage(), $e->getCode());
         }
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
     }
 
+    /**
+     * @throws JsonException
+     */
     public function authenticate($username, $password): array
     {
         try {
@@ -49,12 +55,15 @@ class RemoteUserClient
                 ]
             ]);
         } catch (GuzzleException $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new RuntimeException($e->getMessage(), $e->getCode());
         }
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
     }
 
+    /**
+     * @throws JsonException
+     */
     public function getWorkerById(int $id)
     {
         try {
@@ -64,9 +73,9 @@ class RemoteUserClient
                 ]
             ]);
         } catch (GuzzleException $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new RuntimeException($e->getMessage(), $e->getCode());
         }
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
     }
 }

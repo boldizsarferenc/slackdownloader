@@ -6,7 +6,6 @@ use App\ParserBundle\Domain\Event\DomainEventDispatcherInterface;
 use App\ParserBundle\Domain\Event\UserActivitiesEventInterface;
 use App\Shared\Infrastructure\Event\ContextTransferEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
-
 use function get_class;
 
 class DomainEventDispatcherAdapter implements DomainEventDispatcherInterface
@@ -20,12 +19,14 @@ class DomainEventDispatcherAdapter implements DomainEventDispatcherInterface
 
     public function dispatchUserActivityEvent(UserActivitiesEventInterface $event): void
     {
-        $this->bus->dispatch(new ContextTransferEvent(
-            get_class($event),
-            $event->getHappenedAt(),
-            [
-                'userId' => $event->getUserId()
-            ]
-        ));
+        $this->bus->dispatch(
+            new ContextTransferEvent(
+                get_class($event),
+                $event->getHappenedAt(),
+                [
+                    'userId' => $event->getUserId()
+                ]
+            )
+        );
     }
 }

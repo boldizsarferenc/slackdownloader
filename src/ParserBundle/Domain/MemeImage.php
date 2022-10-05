@@ -4,16 +4,15 @@ namespace App\ParserBundle\Domain;
 
 class MemeImage
 {
+    private string $url;
 
-  private string $url;
+    public function __construct(string $url)
+    {
+        $this->url = $url;
+    }
 
-  public function __construct(string $url)
-  {
-    $this->url = $url;
-  }
-
-  public function getUrl(): string
-  {
-    return $this->url;
-  }
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
 }

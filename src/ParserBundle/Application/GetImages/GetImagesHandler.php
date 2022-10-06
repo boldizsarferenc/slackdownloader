@@ -34,7 +34,7 @@ class GetImagesHandler
     {
         try {
             $worker = $this->workerRepository->getById($query->getWorkerId());
-            $collection = $this->parser->getMemeImages($query->getContent());
+            $collection = $this->parser->getMemeImages($query->getContents());
         } catch (DomainException $e) {
             throw new ApplicationException($e->getMessage(), $e->getCode());
         }

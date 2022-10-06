@@ -22,7 +22,7 @@ class UploadedExportFile
         $this->mimeType = $mimeType;
 
         if (!in_array($this->mimeType, ['application/zip', 'application/json'])) {
-            throw new  DomainException('wrong file format');
+            throw new DomainException('wrong file format');
         }
     }
 

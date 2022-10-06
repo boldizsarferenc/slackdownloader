@@ -24,6 +24,11 @@ services:
   App\ParserBundle\Infrastructure\Shared\Filesystem\LocalFilesystem:
     - '%kernel.project_dir%/upload/'
 
+  App\ParserBundle\Infrastructure\ContentDecoder\ContentDecoder:
+    calls:
+      - addDecoder: [ '@App\ParserBundle\Infrastructure\ContentDecoder\JsonContentDecoder' ],
+
+  App\ParserBundle\Domain\ContentDecoderInterface: '@App\ParserBundle\Infrastructure\ContentDecoder\ContentDecoder'
 
   App\ParserBundle\Application\AuthenticateShoprenterWorker\AuthenticateShoprenterWorkerHandler:
     tags:

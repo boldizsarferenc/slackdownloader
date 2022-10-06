@@ -2,18 +2,36 @@
 
 namespace App\ParserBundle\Infrastructure\MemeImageParser;
 
+use App\ParserBundle\Domain\ContentDecoderInterface;
 use App\ParserBundle\Domain\Exception\DomainException;
 use App\ParserBundle\Domain\MemeImageCollection;
 use App\ParserBundle\Domain\MemeImageParserInterface;
-use App\ParserBundle\Domain\ValueObject\ContentInterface;
+use App\ParserBundle\Domain\ValueObject\ContentCollection;
 use Exception;
 
 class SlackMemeImageParserAdapter implements MemeImageParserInterface
 {
-    public function getMemeImages(ContentInterface $content): MemeImageCollection
+    private ContentDecoderInterface $contentDecoder;
+
+    public function __construct(ContentDecoderInterface $contentDecoder)
+    {
+        $this->contentDecoder = $contentDecoder;
+    }
+
+    /**
+     * @param ContentCollection $contents
+     * @return MemeImageCollection
+     * @throws DomainException
+     */
+    public function getMemeImages(ContentCollection $contents): MemeImageCollection
     {
         try {
-            return MemeImageCollection::createFromArray($content->toArray());
+            $memeImageCollection = new MemeImageCollection();
+            foreach ($contents as $content) {
+                $decodedContent = $this->contentDecoder->decode($content);
+                $memeImageCollection->merge(MemeImageCollection::createFromArray($decodedContent));
+            }
+            return $memeImageCollection;
         } catch (Exception $exception) {
             throw new DomainException($exception->getMessage(), $exception->getCode());
         }

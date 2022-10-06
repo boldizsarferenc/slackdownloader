@@ -2,7 +2,7 @@
 
 namespace App\ParserBundle\Infrastructure\FileReader;
 
-use App\ParserBundle\Domain\ValueObject\ContentInterface;
+use App\ParserBundle\Domain\ValueObject\ContentCollection;
 use App\ParserBundle\Infrastructure\FileUploader\UploadedExportFile;
 use RuntimeException;
 
@@ -18,11 +18,15 @@ class ExtensionAwareFileReader implements FileReaderInterface
         $this->readers[] = $reader;
     }
 
-    public function getContent(UploadedExportFile $uploadedFile): ContentInterface
+    /**
+     * @param UploadedExportFile $uploadedFile
+     * @return ContentCollection
+     */
+    public function getContents(UploadedExportFile $uploadedFile): ContentCollection
     {
         foreach ($this->readers as $reader) {
             if ($reader->canReadFile($uploadedFile)) {
-                return $reader->getContent($uploadedFile);
+                return $reader->getContents($uploadedFile);
             }
         }
         throw new RuntimeException('Missing reader for file: ' . $uploadedFile->getName());

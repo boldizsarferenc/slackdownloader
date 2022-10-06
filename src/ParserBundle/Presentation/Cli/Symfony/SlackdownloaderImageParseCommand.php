@@ -60,11 +60,11 @@ class SlackdownloaderImageParseCommand extends Command
 
         $fileName = basename($filePath);
         $uploadedExportFile = new UploadedExportFile($filePath, $fileName, mime_content_type($filePath));
-        $content = $this->fileReader->getContent($uploadedExportFile);
+        $contents = $this->fileReader->getContents($uploadedExportFile);
 
         $urls = $this->handle(
             new GetImagesQuery(
-                $content,
+                $contents,
                 $worker->getId()
             )
         );

@@ -2,18 +2,18 @@
 
 namespace App\ParserBundle\Application\GetImages;
 
-use App\ParserBundle\Domain\ValueObject\ContentInterface;
+use App\ParserBundle\Domain\ValueObject\ContentCollection;
 
 class GetImagesQuery
 {
-    private ContentInterface $content;
+    private ContentCollection $contents;
     private int $workerId;
 
     public function __construct(
-        ContentInterface $content,
+        ContentCollection $contents,
         int $workerId
     ) {
-        $this->content = $content;
+        $this->contents = $contents;
         $this->workerId = $workerId;
     }
 
@@ -22,8 +22,11 @@ class GetImagesQuery
         return $this->workerId;
     }
 
-    public function getContent(): ContentInterface
+    /**
+     * @return ContentCollection
+     */
+    public function getContents(): ContentCollection
     {
-        return $this->content;
+        return $this->contents;
     }
 }

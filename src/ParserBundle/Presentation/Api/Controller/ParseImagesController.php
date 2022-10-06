@@ -4,7 +4,8 @@ namespace App\ParserBundle\Presentation\Api\Controller;
 
 use App\ParserBundle\Application\AuthenticateShoprenterWorker\AuthenticateShoprenterWorkerQuery;
 use App\ParserBundle\Application\GetImages\GetImagesQuery;
-use App\ParserBundle\Domain\ValueObject\JsonContent;
+use App\ParserBundle\Domain\ValueObject\Content;
+use App\ParserBundle\Domain\ValueObject\ContentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +42,7 @@ class ParseImagesController extends AbstractController
         try {
             $urls = $this->handle(
                 new GetImagesQuery(
-                    new JsonContent($request->getContent()),
+                    new ContentCollection(new Content($request->getContent())),
                     $worker->getId()
                 )
             );

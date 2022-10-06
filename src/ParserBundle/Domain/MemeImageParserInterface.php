@@ -2,13 +2,13 @@
 
 namespace App\ParserBundle\Domain;
 
-use App\ParserBundle\Domain\Exception\DomainException;
-use App\ParserBundle\Domain\ValueObject\ContentInterface;
+use App\ParserBundle\Domain\ValueObject\ContentCollection;
 
 interface MemeImageParserInterface
 {
     /**
-     * @throws DomainException
+     * @param ContentCollection $contents
+     * @return MemeImageCollection
      */
-    public function getMemeImages(ContentInterface $content): MemeImageCollection;
+    public function getMemeImages(ContentCollection $contents): MemeImageCollection;
 }

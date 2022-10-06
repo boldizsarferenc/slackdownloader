@@ -10,8 +10,8 @@ services:
       - './ParserBundle/Entity/'
       - './ParserBundle/Kernel.php'
 
-  App\ParserBundle\Presentation\Web\Controller\: # assuming you have namespace like that
-    resource: '../../../Presentation/Web/Controller'
+  App\ParserBundle\Presentation\: # assuming you have namespace like that
+    resource: '../../../Presentation/*/Controller'
     tags: [ 'controller.service_arguments' ]
 
   App\ParserBundle\Infrastructure\FileReader\ExtensionAwareFileReader:

@@ -7,15 +7,38 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use JsonSerializable;
 use TypeError;
 
-final class MemeImageCollection implements ArrayAccess, IteratorAggregate, Countable
+final class MemeImageCollection implements ArrayAccess, IteratorAggregate, Countable, JsonSerializable
 {
     private array $images;
 
     public function __construct(MemeImage ...$Images)
     {
         $this->images = $Images;
+    }
+
+    /**
+     * @throws DomainException
+     */
+    public static function createFromArray(array $data): self
+    {
+        $urls = [];
+        foreach ($data as $slackPosts) {
+
+            if (!isset($slackPosts['files'])) {
+                throw new DomainException('Not correct Slack format!');
+            }
+
+            foreach ($slackPosts['files'] as $f) {
+                if (isset($f['url_private_download'])) {
+                    $urls[] = new MemeImage($f['url_private_download']);
+                }
+            }
+        }
+
+        return new self(...$urls);
     }
 
     public function offsetExists($offset): bool
@@ -64,25 +87,12 @@ final class MemeImageCollection implements ArrayAccess, IteratorAggregate, Count
         }
     }
 
-    /**
-     * @throws DomainException
-     */
-    public static function createFromArray(array $data): self
+    public function jsonSerialize(): array
     {
-        $urls = [];
-        foreach ($data as $slackPosts) {
-
-            if (!isset($slackPosts['files'])) {
-                throw new DomainException('Not correct Slack format!');
-            }
-
-            foreach ($slackPosts['files'] as $f) {
-                if (isset($f['url_private_download'])) {
-                    $urls[] = new MemeImage($f['url_private_download']);
-                }
-            }
+        $imageUrls = [];
+        foreach ($this->images as $image) {
+            $imageUrls[] = $image->getUrl();
         }
-
-        return new self(...$urls);
+        return $imageUrls;
     }
 }

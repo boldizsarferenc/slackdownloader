@@ -13,3 +13,8 @@ app_login:
 app_logout:
   path: /logout
   methods: GET
+
+api_get_images_url:
+  controller: App\ParserBundle\Presentation\Api\Controller\ParseImagesController::postAction
+  path: /api/parse-images
+  methods: POST

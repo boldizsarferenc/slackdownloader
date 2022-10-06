@@ -6,12 +6,13 @@ class File
 {
     private string $name;
     private string $path;
+    private string $mimeType;
 
     public function __construct($path)
     {
-        $name = explode(DIRECTORY_SEPARATOR, $path);
-        $this->name = end($name);
+        $this->name = basename($path);
         $this->path = $path;
+        $this->mimeType = mime_content_type($path);
     }
 
     public function getName(): string
@@ -24,9 +25,8 @@ class File
         return $this->path;
     }
 
-    public function getExtension(): string
+    public function getMimeType(): string
     {
-        $re = explode('.', $this->name);
-        return end($re);
+        return $this->mimeType;
     }
 }

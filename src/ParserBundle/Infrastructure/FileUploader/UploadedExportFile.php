@@ -9,19 +9,19 @@ use function explode;
 class UploadedExportFile
 {
     private string $path;
-    private string $extension;
     private string $name;
+    private string $mimeType;
 
     /**
      * @throws DomainException
      */
-    public function __construct($path)
+    public function __construct(string $path, string $name, string $mimeType)
     {
         $this->path = $path;
-        $this->name = $this->getFileNameFromPath($path);
-        $this->extension = $this->getExtensionFromFilename($this->name);
+        $this->name = $name;
+        $this->mimeType = $mimeType;
 
-        if (!in_array($this->extension, ['zip', 'json'])) {
+        if (!in_array($this->mimeType, ['application/zip', 'application/json'])) {
             throw new  DomainException('wrong file format');
         }
     }
@@ -31,9 +31,14 @@ class UploadedExportFile
         return $this->path;
     }
 
-    public function getExtension(): string
+    public function getContent(): string
     {
-        return $this->extension;
+        return file_get_contents($this->path);
+    }
+
+    public function getMimeType(): string
+    {
+        return $this->mimeType;
     }
 
     public function getName(): string

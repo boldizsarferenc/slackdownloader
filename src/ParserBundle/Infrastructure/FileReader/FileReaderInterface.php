@@ -2,10 +2,12 @@
 
 namespace App\ParserBundle\Infrastructure\FileReader;
 
-use App\ParserBundle\Domain\MemeImageCollection;
+use App\ParserBundle\Domain\ValueObject\ContentInterface;
 use App\ParserBundle\Infrastructure\FileUploader\UploadedExportFile;
 
 interface FileReaderInterface
 {
-    public function getUrls(UploadedExportFile $uploadedExportFile): MemeImageCollection;
+    public function canReadFile(UploadedExportFile $uploadedFile):bool;
+
+    public function getContent(UploadedExportFile $uploadedFile): ContentInterface;
 }

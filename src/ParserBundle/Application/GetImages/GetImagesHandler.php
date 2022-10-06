@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ParserBundle\Application\GetImagesFromFile;
+namespace App\ParserBundle\Application\GetImages;
 
 use App\ParserBundle\Application\Exception\ApplicationException;
 use App\ParserBundle\Domain\Event\DomainEventDispatcherInterface;
@@ -9,10 +9,9 @@ use App\ParserBundle\Domain\Exception\DomainException;
 use App\ParserBundle\Domain\MemeImageCollection;
 use App\ParserBundle\Domain\MemeImageParserInterface;
 use App\ParserBundle\Domain\ShoprenterWorkerRepositoryInterface;
-use App\ParserBundle\Domain\ValueObject\InputFile;
 use DateTimeImmutable;
 
-class GetImagesFromFileHandler
+class GetImagesHandler
 {
     private MemeImageParserInterface $parser;
     private DomainEventDispatcherInterface $dispatcher;
@@ -31,16 +30,11 @@ class GetImagesFromFileHandler
     /**
      * @throws ApplicationException
      */
-    public function __invoke(GetImagesFromFileQuery $query): MemeImageCollection
+    public function __invoke(GetImagesQuery $query): MemeImageCollection
     {
         try {
             $worker = $this->workerRepository->getById($query->getWorkerId());
-            $collection = $this->parser->getMemeImagesFromFile(
-                new InputFile(
-                    $query->getFilePath(),
-                    $query->getFileName()
-                )
-            );
+            $collection = $this->parser->getMemeImages($query->getContent());
         } catch (DomainException $e) {
             throw new ApplicationException($e->getMessage(), $e->getCode());
         }

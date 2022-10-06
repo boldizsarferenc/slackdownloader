@@ -2,26 +2,39 @@
 
 namespace App\ParserBundle\Infrastructure\FileReader;
 
-use App\ParserBundle\Domain\MemeImageCollection;
+use App\ParserBundle\Domain\ValueObject\ContentInterface;
 use App\ParserBundle\Infrastructure\FileUploader\UploadedExportFile;
 use RuntimeException;
 
 class ExtensionAwareFileReader implements FileReaderInterface
 {
+    /**
+     * @var FileReaderInterface[]
+     */
     private array $readers;
 
-    public function addReader($extension, $reader): void
+    public function addReader($reader): void
     {
-        $this->readers[$extension] = $reader;
+        $this->readers[] = $reader;
     }
 
-    public function getUrls(UploadedExportFile $file): MemeImageCollection
+    public function getContent(UploadedExportFile $uploadedFile): ContentInterface
     {
-        $extension = $file->getExtension();
-        $reader = $this->readers[$extension] ?? null;
-        if ($reader === null) {
-            throw new RuntimeException('Missing reader for extension: ' . $extension);
+        foreach ($this->readers as $reader) {
+            if ($reader->canReadFile($uploadedFile)) {
+                return $reader->getContent($uploadedFile);
+            }
         }
-        return $reader->getUrls($file);
+        throw new RuntimeException('Missing reader for file: ' . $uploadedFile->getName());
+    }
+
+    public function canReadFile(UploadedExportFile $uploadedFile): bool
+    {
+        foreach ($this->readers as $reader) {
+            if ($reader->canReadFile($uploadedFile)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

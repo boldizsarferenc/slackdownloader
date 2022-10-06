@@ -4,9 +4,12 @@ namespace App\ParserBundle\Infrastructure\FileReader;
 
 use App\ParserBundle\Domain\Exception\DomainException;
 use App\ParserBundle\Domain\MemeImageCollection;
+use App\ParserBundle\Domain\ValueObject\ContentInterface;
+use App\ParserBundle\Domain\ValueObject\JsonContent;
 use App\ParserBundle\Infrastructure\FileUploader\UploadedExportFile;
 use App\ParserBundle\Infrastructure\Shared\Filesystem\FilesystemManager;
 use JsonException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class JsonFileReader implements FileReaderInterface
 {
@@ -17,14 +20,13 @@ class JsonFileReader implements FileReaderInterface
         $this->filesystem = $filesystem;
     }
 
-    /**
-     * @throws DomainException|JsonException
-     */
-    public function getUrls(UploadedExportFile $uploadedExportFile): MemeImageCollection
+    public function getContent(UploadedExportFile $uploadedFile): ContentInterface
     {
-        $json = $this->filesystem->getContents($uploadedExportFile);
-        $posts = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        return new JsonContent($uploadedFile->getContent());
+    }
 
-        return MemeImageCollection::createFromArray($posts);
+    public function canReadFile(UploadedExportFile $uploadedFile): bool
+    {
+        return $uploadedFile->getMimeType() === 'application/json';
     }
 }

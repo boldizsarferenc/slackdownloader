@@ -16,8 +16,8 @@ services:
 
   App\ParserBundle\Infrastructure\FileReader\ExtensionAwareFileReader:
     calls:
-      - addReader: [ 'zip', '@App\ParserBundle\Infrastructure\FileReader\ZipFileReader' ],
-      - addReader: [ 'json', '@App\ParserBundle\Infrastructure\FileReader\JsonFileReader' ]
+      - addReader: [ '@App\ParserBundle\Infrastructure\FileReader\ZipFileReader' ],
+      - addReader: [ '@App\ParserBundle\Infrastructure\FileReader\JsonFileReader' ]
 
   App\ParserBundle\Infrastructure\FileReader\FileReaderInterface: '@App\ParserBundle\Infrastructure\FileReader\ExtensionAwareFileReader'
 
@@ -31,11 +31,11 @@ services:
         bus: query.bus
         handles: App\ParserBundle\Application\AuthenticateShoprenterWorker\AuthenticateShoprenterWorkerQuery
 
-  App\ParserBundle\Application\GetImagesFromFile\GetImagesFromFileHandler:
+  App\ParserBundle\Application\GetImages\GetImagesHandler:
     tags:
       - name: messenger.message_handler
         bus: query.bus
-        handles: App\ParserBundle\Application\GetImagesFromFile\GetImagesFromFileQuery
+        handles: App\ParserBundle\Application\GetImages\GetImagesQuery
 
   App\ParserBundle\Application\GetShoprenterWorkerById\GetShoprenterWorkerByIdHandler:
     tags:

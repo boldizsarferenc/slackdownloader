@@ -4,8 +4,10 @@ namespace App\ParserBundle\Presentation\Cli\Symfony;
 
 use App\ParserBundle\Application\AuthenticateShoprenterWorker\AuthenticateShoprenterWorkerQuery;
 use App\ParserBundle\Application\Exception\ApplicationException;
-use App\ParserBundle\Application\GetImagesFromFile\GetImagesFromFileQuery;
+use App\ParserBundle\Application\GetImages\GetImagesQuery;
 use App\ParserBundle\Domain\MemeImage;
+use App\ParserBundle\Infrastructure\FileReader\FileReaderInterface;
+use App\ParserBundle\Infrastructure\FileUploader\UploadedExportFile;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,11 +23,13 @@ class SlackdownloaderImageParseCommand extends Command
 
     protected static $defaultName = 'slackdownloader:image:parse';
     protected static $defaultDescription = 'It parsing urls form slack file';
+    private FileReaderInterface $fileReader;
 
-    public function __construct(MessageBusInterface $queryBus)
+    public function __construct(MessageBusInterface $queryBus, FileReaderInterface $fileReader)
     {
         parent::__construct();
         $this->messageBus = $queryBus;
+        $this->fileReader = $fileReader;
     }
 
     protected function configure(): void
@@ -54,10 +58,15 @@ class SlackdownloaderImageParseCommand extends Command
             return Command::FAILURE;
         }
 
+        $fileName = basename($filePath);
+        $uploadedExportFile = new UploadedExportFile($filePath, $fileName, mime_content_type($filePath));
+        $content = $this->fileReader->getContent(
+            $uploadedExportFile
+        );
+
         $urls = $this->handle(
-            new GetImagesFromFileQuery(
-                $filePath,
-                'uploadedFile_' . time() . '.json',
+            new GetImagesQuery(
+                $content,
                 $worker->getId()
             )
         );

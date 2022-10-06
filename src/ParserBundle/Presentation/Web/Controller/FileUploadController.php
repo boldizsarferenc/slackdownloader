@@ -2,9 +2,12 @@
 
 namespace App\ParserBundle\Presentation\Web\Controller;
 
-use App\ParserBundle\Application\GetImagesFromFile\GetImagesFromFileQuery;
+use App\ParserBundle\Application\GetImages\GetImagesQuery;
 use App\ParserBundle\Application\GetShoprenterWorkerById\GetShoprenterWorkerByIdQuery;
+use App\ParserBundle\Domain\Exception\DomainException;
 use App\ParserBundle\Domain\ShoprenterWorker;
+use App\ParserBundle\Infrastructure\FileReader\FileReaderInterface;
+use App\ParserBundle\Infrastructure\FileUploader\UploadedExportFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,9 +21,12 @@ class FileUploadController extends AbstractController
 {
     use HandleTrait;
 
-    public function __construct(MessageBusInterface $queryBus)
+    private FileReaderInterface $fileReader;
+
+    public function __construct(MessageBusInterface $queryBus, FileReaderInterface $fileReader)
     {
         $this->messageBus = $queryBus;
+        $this->fileReader = $fileReader;
     }
 
     public function index(Session $session): Response
@@ -36,6 +42,9 @@ class FileUploadController extends AbstractController
         ]);
     }
 
+    /**
+     * @throws DomainException
+     */
     public function upload(Request $request): Response
     {
         /** @var UploadedFile $file */
@@ -44,11 +53,15 @@ class FileUploadController extends AbstractController
         /** @var ShoprenterWorker $worker */
         $worker = $this->handle(new GetShoprenterWorkerByIdQuery($this->getUser()->getId()));
 
+        $uploadedExportFile = new UploadedExportFile($file->getRealPath(), $file->getFilename(), $file->getMimeType());
+        $content = $this->fileReader->getContent(
+            $uploadedExportFile
+        );
+
         try {
             $urls = $this->handle(
-                new GetImagesFromFileQuery(
-                    $file->getPathname(),
-                    $file->getClientOriginalName(),
+                new GetImagesQuery(
+                    $content,
                     $worker->getId()
                 )
             );

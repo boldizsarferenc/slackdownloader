@@ -3,12 +3,12 @@
 namespace App\ParserBundle\Domain;
 
 use App\ParserBundle\Domain\Exception\DomainException;
-use App\ParserBundle\Domain\ValueObject\InputFile;
+use App\ParserBundle\Domain\ValueObject\ContentInterface;
 
 interface MemeImageParserInterface
 {
     /**
      * @throws DomainException
      */
-    public function getMemeImagesFromFile(InputFile $file): MemeImageCollection;
+    public function getMemeImages(ContentInterface $content): MemeImageCollection;
 }

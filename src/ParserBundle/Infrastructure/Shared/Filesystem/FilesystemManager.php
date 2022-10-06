@@ -7,7 +7,7 @@ use App\ParserBundle\Infrastructure\FileUploader\UploadedExportFile;
 
 class FilesystemManager
 {
-    private $filesystem;
+    private FilesystemInterface $filesystem;
 
     public function __construct(FilesystemInterface $filesystem)
     {
@@ -28,7 +28,8 @@ class FilesystemManager
     {
         $files = [];
         foreach ($this->filesystem->globRecursive($dir, $pattern) as $f) {
-            $files[] = new UploadedExportFile($f->getPath());
+            /** @var File $f */
+            $files[] = new UploadedExportFile($f->getPath(), $f->getName(), $f->getMimeType());
         }
 
         return $files;

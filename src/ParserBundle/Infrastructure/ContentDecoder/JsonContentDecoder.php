@@ -14,7 +14,7 @@ class JsonContentDecoder implements ContentDecoderInterface
 
     public function canDecode(Content $content): bool
     {
-        json_decode($content->getValue(), false, 512, JSON_THROW_ON_ERROR);
+        json_decode($content->getValue(), false, 512);
         return json_last_error() === JSON_ERROR_NONE;
     }
 }

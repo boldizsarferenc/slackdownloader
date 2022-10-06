@@ -35,10 +35,6 @@ class ParseImagesController extends AbstractController
             return new JsonResponse(['error' => 'Unauthorized'], 401);
         }
 
-        if ($request->get('Content-Type') === 'application/json') {
-            return new JsonResponse(['error' => 'Json Required'], 400);
-        }
-
         try {
             $urls = $this->handle(
                 new GetImagesQuery(
@@ -47,7 +43,7 @@ class ParseImagesController extends AbstractController
                 )
             );
         } catch (Throwable $throwable) {
-            return new JsonResponse(['error' => 'Internal Server Error'], 500);
+            return new JsonResponse(['error' => $throwable->getPrevious()->getMessage()], 500);
         }
 
         return new JsonResponse($urls, 200);

@@ -54,9 +54,7 @@ class FileUploadController extends AbstractController
         $worker = $this->handle(new GetShoprenterWorkerByIdQuery($this->getUser()->getId()));
 
         $uploadedExportFile = new UploadedExportFile($file->getRealPath(), $file->getFilename(), $file->getMimeType());
-        $content = $this->fileReader->getContent(
-            $uploadedExportFile
-        );
+        $content = $this->fileReader->getContent($uploadedExportFile);
 
         try {
             $urls = $this->handle(
